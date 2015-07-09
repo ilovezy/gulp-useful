@@ -8,13 +8,12 @@ var gulp = require('gulp'),
 
 // 处理 sass 和 scss 文件，两种都可以用 sass()方法编，注意命不要重复
 var sassPath = './src/sass/*.*', 
-    transformedCssName = 'sass.css', 
-    transformedCssPath = 'dist/css';
+    transformedCssPath = './dist/css';
 
 gulp.task('sass', function(){
     return gulp.src(sassPath)
         .pipe(sass().on('error', sass.logError))
-        .pipe(gulp.dest('./dist/css'))
+        .pipe(gulp.dest(transformedCssPath))
 })
 
 gulp.task('watch', function(){
