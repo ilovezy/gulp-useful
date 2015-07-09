@@ -6,8 +6,8 @@ var gulp = require('gulp'),
     gass = require('gulp-sass'),
     browserSync = require('browser-sync').create();
 
-// 处理 sass 文件 
-var sassPath = './src/sass/*.sass', 
+// 处理 sass 和 scss 文件，两种都可以用 sass()方法编，注意命不要重复
+var sassPath = './src/sass/*.*', 
     transformedCssName = 'sass.css', 
     transformedCssPath = 'dist/css';
 
