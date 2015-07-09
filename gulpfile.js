@@ -3,7 +3,24 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     imagemin = require('gulp-imagemin'),
     cache = require('gulp-cache'),
+    gass = require('gulp-sass'),
     browserSync = require('browser-sync').create();
+
+// 处理 sass 文件 
+var sassPath = './src/sass/*.sass', 
+    transformedCssName = 'sass.css', 
+    transformedCssPath = 'dist/css';
+
+gulp.task('sass', function(){
+    return gulp.src(sassPath)
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./dist/css'))
+})
+
+gulp.task('watch', function(){
+    // watch .sass files
+    gulp.watch(sassPath, ['sass'])
+})
 
 // 处理 css 包括 uglify concat
 var cssPath = './src/css/*.css', 
