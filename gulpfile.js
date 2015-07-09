@@ -67,4 +67,4 @@ gulp.task('serve', function() {
     return gulp.watch(watchPath).on('change', browserSync.reload)
 })
 
-gulp.task('default', ['serve', 'scripts', 'imagemin'])
+gulp.task('default', ['serve', 'scripts', 'imagemin', 'sass', 'watch'])
