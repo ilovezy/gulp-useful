@@ -10,6 +10,12 @@ var gulp = require('gulp'),
 var sassPath = './src/sass/*.*', 
     transformedCssPath = './dist/css';
 
+/* outputstyle
+    * nested：嵌套缩进的css代码，它是默认值。
+　　* expanded：没有缩进的、扩展的css代码。
+　　* compact：简洁格式的css代码。
+　　* compressed：压缩后的css代码。*/
+
 gulp.task('sass', function(){
     return gulp.src(sassPath)
         .pipe(sass({outputStyle: 'compressed'})
