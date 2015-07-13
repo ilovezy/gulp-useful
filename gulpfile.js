@@ -29,7 +29,7 @@ gulp.task('watch', function(){
     gulp.watch(sassPath, ['sass'])
 })
 
-// 处理 css 包括 uglify concat
+// 处理 css 包括 autoprefixer uglify concat
 var cssPath = './src/css/*.css', 
     cssMinName = 'all.min.css', 
     cssDestPath = 'dist/css';
