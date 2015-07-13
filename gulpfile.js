@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
+    autoprefixer = require('gulp-autoprefixer'),
     imagemin = require('gulp-imagemin'),
     cache = require('gulp-cache'),
     gass = require('gulp-sass'),
@@ -34,6 +35,11 @@ var cssPath = './src/css/*.css',
     cssDestPath = 'dist/css';
 gulp.task('scripts', function() {
     return gulp.src(cssPath)
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: true,
+            remove: true
+        }))
         .pipe(uglify())
         .pipe(concat(cssMinName))
         .pipe(gulp.dest(cssDestPath))
