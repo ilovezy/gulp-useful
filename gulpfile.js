@@ -4,7 +4,8 @@ var gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
     imagemin = require('gulp-imagemin'),
     cache = require('gulp-cache'),
-    gass = require('gulp-sass'),
+    sass = require('gulp-sass'),
+    less = require('gulp-less'), // 使用 less
     browserSync = require('browser-sync').create();
 
 // 处理 sass 和 scss 文件，两种都可以用 sass()方法编，注意命不要重复
@@ -27,6 +28,20 @@ gulp.task('sass', function(){
 gulp.task('watch', function(){
     // watch .sass files
     gulp.watch(sassPath, ['sass'])
+})
+
+// 使用 less, 用 less() 方法编译, 和sass使方法完全一致
+var lessPath = './src/less/*.less',
+    transformedCssPath = './dist/css';
+
+gulp.task('less', function(){
+    return gulp.src(lessPath)
+        .pipe(less())
+        .pipe(gulp.dest(transformedCssPath))
+})
+
+gulp.task('watch', function(){
+    gulp.watch(lessPath, ['less'])
 })
 
 // 处理 css 包括 autoprefixer uglify concat
