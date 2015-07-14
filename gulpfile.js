@@ -1,3 +1,6 @@
+
+// created by ccHotaru at 2015-7-14
+
 var gulp = require('gulp'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
