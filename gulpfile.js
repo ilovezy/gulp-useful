@@ -9,6 +9,7 @@ var gulp = require('gulp'),
     cache = require('gulp-cache'),
     sass = require('gulp-sass'),
     less = require('gulp-less'), // 使用 less
+    stylus = require('gulp-stylus'), // use stylus
     browserSync = require('browser-sync').create();
 
 // 处理 sass 和 scss 文件，两种都可以用 sass()方法编，注意命不要重复
@@ -45,6 +46,20 @@ gulp.task('less', function(){
 
 gulp.task('watch', function(){
     gulp.watch(lessPath, ['less'])
+})
+
+// use stylus, same as less,sass
+var stylusPath = './src/stylus/*.stylus',
+    transformedCssPath = './dist/css'
+
+gulp.taks('stylus', function(){
+    return gulp.src(stylusPath)
+        .pipe(stylus())
+        .pipe(gulp.dest(transformedCssPath))
+})
+
+gulp.task('watch', function(){
+    gulp.watch(stylusPath, ['stylus'])
 })
 
 // 处理 css 包括 autoprefixer uglify concat
