@@ -2,14 +2,13 @@
 // created by ccHotaru at 2015-7-14
 
 var gulp = require('gulp'),
+    plumber = require('gulp-plumber'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
     autoprefixer = require('gulp-autoprefixer'),
     imagemin = require('gulp-imagemin'),
     cache = require('gulp-cache'),
     sass = require('gulp-sass'),
-    less = require('gulp-less'), // 使用 less
-    stylus = require('gulp-stylus'), // use stylus
     browserSync = require('browser-sync').create();
 
 // 处理 sass 和 scss 文件，两种都可以用 sass()方法编，注意命不要重复
@@ -24,55 +23,23 @@ var sassPath = './src/sass/*.*',
 
 gulp.task('sass', function(){
     return gulp.src(sassPath)
-        .pipe(sass({outputStyle: 'compressed'})
-            .on('error', sass.logError))
+        .pipe(plumer())
+        .pipe(sass({outputStyle: 'expanded'})
         .pipe(gulp.dest(transformedCssPath))
-})
-
-gulp.task('watch', function(){
-    // watch .sass files
-    gulp.watch(sassPath, ['sass'])
-})
-
-// 使用 less, 用 less() 方法编译, 和sass使方法完全一致
-var lessPath = './src/less/*.less',
-    transformedCssPath = './dist/css';
-
-gulp.task('less', function(){
-    return gulp.src(lessPath)
-        .pipe(less())
-        .pipe(gulp.dest(transformedCssPath))
-})
-
-gulp.task('watch', function(){
-    gulp.watch(lessPath, ['less'])
-})
-
-// use stylus, same as less,sass
-var stylusPath = './src/stylus/*.stylus',
-    transformedCssPath = './dist/css'
-
-gulp.taks('stylus', function(){
-    return gulp.src(stylusPath)
-        .pipe(stylus())
-        .pipe(gulp.dest(transformedCssPath))
-})
-
-gulp.task('watch', function(){
-    gulp.watch(stylusPath, ['stylus'])
 })
 
 // 处理 css 包括 autoprefixer uglify concat
 var cssPath = './src/css/*.css', 
     cssMinName = 'all.min.css', 
     cssDestPath = 'dist/css';
-gulp.task('scripts', function() {
+gulp.task('css', function() {
     return gulp.src(cssPath)
         .pipe(autoprefixer({
             browsers: ['last 2 versions'],
             cascade: true,
             remove: true
         }))
+        .pipe(plumber())
         .pipe(uglify())
         .pipe(concat(cssMinName))
         .pipe(gulp.dest(cssDestPath))
@@ -82,8 +49,9 @@ gulp.task('scripts', function() {
 var jsPath = './src/js/*.js', 
     jsMinName = 'all.min.js', 
     jsDestPath = 'dist/js';
-gulp.task('scripts', function() {
+gulp.task('js', function() {
     return gulp.src(jsPath)
+        .pipe(plumber())
         .pipe(uglify())
         .pipe(concat(jsMinName))
         .pipe(gulp.dest(jsDestPath))
@@ -92,7 +60,7 @@ gulp.task('scripts', function() {
 // 处理图片，包括 cache, imagemin
 var imgPath = './src/img/*.*', 
     imgDestPath = 'dist/img/';
-gulp.task('imagemin', function() {
+gulp.task('img', function() {
     return gulp.src(imgPath)
         .pipe(cache(imagemin({
             optimizationLevel: 1
@@ -112,4 +80,11 @@ gulp.task('serve', function() {
     return gulp.watch(watchPath).on('change', browserSync.reload)
 })
 
-gulp.task('default', ['serve', 'scripts', 'imagemin', 'sass', 'watch'])
+gulp.task('watch', function(){
+    gulp.watch(sassPath, ['sass'])
+    gulp.watch(cssPath, ['css'])
+    gulp.watch(jsPath, ['js'])
+     gulp.watch(imgPath, ['img'])
+})
+
+gulp.task('default', ['serve', 'watch'])
